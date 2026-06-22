@@ -1,0 +1,24 @@
+{
+  "name": "wishmate-server",
+  "version": "1.0.0",
+  "description": "WishMate - Never Miss a Special Moment - Backend Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["wishmate", "reminders", "gifts", "occasions"],
+  "author": "WishMate",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

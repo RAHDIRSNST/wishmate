@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - WishMate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="wm-navbar-container"></div>
+
+<div class="container" style="padding-top: 110px; padding-bottom: 60px;">
+
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+      <h2 id="welcomeHeading" class="mb-1">Welcome back! <i class="bi bi-emoji-smile-fill text-gradient"></i></h2>
+      <p class="text-muted mb-0">Here's what's happening with your special moments.</p>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+      <button class="btn btn-outline-gradient" id="enableNotifBtn"><i class="bi bi-bell me-2"></i>Enable Browser Notifications</button>
+      <a href="add-reminder.html" class="btn btn-gradient"><i class="bi bi-plus-circle me-2"></i>Add Reminder</a>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="row g-4 mb-5">
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card purple">
+        <i class="bi bi-calendar-heart stat-icon"></i>
+        <div class="stat-number mt-2" id="statTotal">0</div>
+        <div>Total Reminders</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card pink">
+        <i class="bi bi-alarm stat-icon"></i>
+        <div class="stat-number mt-2" id="statWeek">0</div>
+        <div>Upcoming This Week</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card peach">
+        <i class="bi bi-box2-heart stat-icon"></i>
+        <div class="stat-number mt-2" id="statGifts">0</div>
+        <div>Gift Requests</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="stat-card blue">
+        <i class="bi bi-check-circle stat-icon"></i>
+        <div class="stat-number mt-2" id="statCompleted">0</div>
+        <div>Completed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row g-3 mb-5">
+    <div class="col-md-4">
+      <a href="add-reminder.html" class="text-decoration-none">
+        <div class="wm-card p-4 text-center h-100">
+          <i class="bi bi-plus-circle-fill text-gradient" style="font-size: 2.2rem;"></i>
+          <h6 class="mt-2 mb-0 text-dark">Add Reminder</h6>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="calendar.html" class="text-decoration-none">
+        <div class="wm-card p-4 text-center h-100">
+          <i class="bi bi-calendar3 text-gradient" style="font-size: 2.2rem;"></i>
+          <h6 class="mt-2 mb-0 text-dark">View Calendar</h6>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="gift-help.html" class="text-decoration-none">
+        <div class="wm-card p-4 text-center h-100">
+          <i class="bi bi-box2-heart-fill text-gradient" style="font-size: 2.2rem;"></i>
+          <h6 class="mt-2 mb-0 text-dark">Request Gift Help</h6>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Upcoming Reminders -->
+  <h4 class="mb-3">Upcoming Reminders</h4>
+  <div id="loadingSpinner" class="wm-spinner-wrapper">
+    <div class="wm-spinner"></div>
+  </div>
+  <div id="remindersContainer" class="row g-3"></div>
+  <div id="emptyState" class="empty-state d-none">
+    <i class="bi bi-calendar-x"></i>
+    <h5>No reminders yet</h5>
+    <p>Start by adding your first special date!</p>
+    <a href="add-reminder.html" class="btn btn-gradient mt-2"><i class="bi bi-plus-circle me-2"></i>Add Your First Reminder</a>
+  </div>
+
+</div>
+
+<!-- Demo Notification Modal -->
+<div class="modal fade" id="demoNotifModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-xl">
+      <div class="modal-body text-center p-4">
+        <i class="bi bi-bell-fill text-gradient" style="font-size: 3rem;"></i>
+        <h5 class="mt-3">Browser Notifications Enabled (Demo)</h5>
+        <p class="text-muted">You'll now receive demo reminder alerts in your browser. This is a simulated feature — no real push notifications are configured.</p>
+        <button class="btn btn-gradient" data-bs-dismiss="modal">Got It</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reminder Detail / Edit Confirm Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-xl">
+      <div class="modal-body text-center p-4">
+        <i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 3rem;"></i>
+        <h5 class="mt-3">Delete this reminder?</h5>
+        <p class="text-muted">This action cannot be undone.</p>
+        <div class="d-flex justify-content-center gap-2">
+          <button class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-danger rounded-pill px-4" id="confirmDeleteBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+  protectPage();
+  renderNavbar('dashboard');
+  initDashboard();
+</script>
+</body>
+</html>
